@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Login</title>
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#loginForm').on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '/login',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.success) {
+                            window.location.href = response.redirect_url;
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('An unexpected error occurred.');
+                    }
+                });
+            });
+        });
+    </script>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form id="loginForm" class="login-form" action="/login" method="POST">
+            <input type="text" name="email" id="email" placeholder="User" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="submit" name="submit" value="Login">
+        </form>
+    </div>
+</body>
+</html>

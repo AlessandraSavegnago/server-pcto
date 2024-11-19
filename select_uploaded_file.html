@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Select an OTA update file</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Select an Uploaded File</h2>
+        <form action="/make-post-request" method="post">
+            <select name="selected_file">
+                {% for file_name in uploaded_files %}
+                <option value="{{ file_name }}">{{ file_name }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <input type="submit" value="Submit OTA update">
+        </form>
+    </div>
+</body>
+</html>

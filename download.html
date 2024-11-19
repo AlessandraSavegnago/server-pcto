@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Download CSV - WiFi Mesh Network Logs</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Download WiFi Mesh Network Logs</h1>
+        <p>Press to download a CSV file containing all the logs from the WiFi mesh network.</p>
+        <form action="/download_all" method="post">
+            <button type="submit" class="btn-download">Download all</button>
+        </form>
+        <p>Press to download a CSV file containing logs from the last 24 hours.</p>
+        <form action="/download_24h" method="post">
+            <button type="submit" class="btn-download">Download last 24 hours</button>
+        </form>
+    </div>
+</body>
+</html>

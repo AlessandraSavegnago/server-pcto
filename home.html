@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Welcome</title>
+    <style>
+        /* Nasconde il campo input file */
+        #file-upload {
+            display: none;
+        }
+        /* Aggiungi uno stile per i pulsanti, se non è già definito in styles.css */
+        .button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+            display: inline-block;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ username }}!!</h1>
+        <div class="button-container">
+            <a href="/download" class="button">Download Data</a>
+            <a id="upload-button" class="button">Upload File</a>
+            <a href="/select-file" class="button">Select File</a>
+            <a href="/dashboard" class="button">Display Data</a>
+            <a href="/logout" class="button">Logout</a>
+        </div>
+        <form id="upload-form" action="/upload" method="post" enctype="multipart/form-data">
+            <input id="file-upload" type="file" name="file">
+        </form>
+    </div>
+    <script>
+        // Quando si clicca il pulsante "Upload File", si simula un click sul campo file nascosto
+        document.getElementById('upload-button').addEventListener('click', function() {
+            document.getElementById('file-upload').click();
+        });
+
+        // Al caricamento del file, il form viene automaticamente inviato
+        document.getElementById('file-upload').addEventListener('change', function() {
+            if (this.files.length > 0) {
+                document.getElementById('upload-form').submit(); // Invia il form
+                alert('File selected: ' + this.files[0].name); // Notifica il file selezionato
+            }
+        });
+    </script>
+</body>
+</html>
