@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <title>Login</title>
 </head>
 <body>
@@ -31,8 +32,14 @@
             });
         });
     </script>
+    <style>
+        body{
+            background-color: #3e92f2; 
+        }
+    </style>
     <div class="login-container">
-        <h1>Login</h1>
+        <h1 id="loginTitle">Hello</h1>
+        <h3 id="loginSubTitle">Sign in to your account</h3>
         <form id="loginForm" class="login-form" action="/login" method="POST">
             <input type="text" name="email" id="email" placeholder="User" required>
             <input type="password" name="password" id="password" placeholder="Password" required>
