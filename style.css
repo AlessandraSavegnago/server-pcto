@@ -3,7 +3,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Center the container in the viewport */
+    min-height: 100vh; /* Center the container in the viewport */
     margin: 0;
     padding:0;
     font-family: 'Poppins', sans-serif;
@@ -66,6 +66,14 @@ p{
 #loginSubTitle {
     font-weight: 400; /* Use a bold style */
     margin-bottom: 0%; /* Add spacing below the title */
+}
+
+#meshTitle{
+    position: absolute;
+    text-align: left;
+    top: 20px;
+    margin-left:50px;
+    width: 100%;
 }
 
 form label {
@@ -148,4 +156,31 @@ input[type="submit"]:hover {
 
 #file-upload {
     display: none; /* Hide the file upload field */
+}
+
+#tree {
+    position: relative;
+    min-height: 100vh;
+    white-space: nowrap;
+    padding-bottom: 50px; /* Margine inferiore per scroll */
+    margin-top:130px;
+}
+
+.node {
+    position: absolute;
+    width: 95px;
+    height: 95px;
+    background-color: #007BFF;
+    border-radius: 50%;
+    color: white;
+    text-align: center;
+    line-height: 90px;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+}
+
+.line {
+    position: absolute;
+    background-color: #2980b9;
+    transform-origin: top left;
 }

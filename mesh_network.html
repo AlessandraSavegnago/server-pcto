@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="style.css">
+    <title>MeshNetwork</title>
+    <style>
+        body {
+            justify-content: flex-start; /* Cambiato per consentire spazio ai contenuti extra */
+            align-items: flex-start;
+            overflow-x: auto; /* Consente lo scroll orizzontale */
+        }
+    </style>
+</head>
+<body>
+    <h1 id="meshTitle">Mesh Network</h1>
+    <div id="tree">
+
+    <script>
+        async function renderTree() {
+            // Recupera i dati dal database
+            const response = await fetch('fetchTree.php');
+            const data = await response.json();
+
+            const treeContainer = document.getElementById('tree');
+            treeContainer.innerHTML = ''; // Pulisce il contenitore per evitare duplicati
+
+            const levelHeight = 150; // Distanza verticale tra livelli
+            let minX = Infinity; // Punto più a sinistra
+
+            /**
+             * Funzione ricorsiva per calcolare la larghezza totale del sottoalbero
+             * senza disegnare i nodi.
+             * @param {Object} node Nodo corrente
+             * @returns {number} Larghezza necessaria per disporre i figli
+             */
+            function calculateChildWidth(node) {
+                const children = node.children || [];
+                if (children.length === 0) {
+                    return 130; // Larghezza minima per i nodi foglia
+                }
+
+                // Calcola larghezza totale necessaria per i figli
+                let totalWidth = 0;
+                children.forEach((child) => {
+                    totalWidth += calculateChildWidth(child); // Calcola larghezza per ogni figlio
+                });
+
+                return totalWidth;
+            }
+
+            /**
+             * Funzione ricorsiva per disegnare i nodi e calcolare le posizioni.
+             * @param {Object} node Nodo corrente
+             * @param {number} x Posizione x del nodo genitore
+             * @param {number} y Posizione y del nodo genitore
+             * @returns {number} L'altezza totale del sottoalbero
+             */
+            function drawNode(node, x, y) {
+                // Aggiorna il punto più a sinistra
+                minX = Math.min(minX, x);
+
+                // Disegna il nodo corrente
+                const nodeElement = document.createElement('div');
+                nodeElement.className = 'node';
+                nodeElement.style.left = `${x}px`;
+                nodeElement.style.top = `${y}px`;
+                nodeElement.textContent = node.name;
+                treeContainer.appendChild(nodeElement);
+
+                // Ottieni i figli
+                const children = node.children || [];
+                if (children.length === 0) return y; // Niente da fare per i nodi foglia
+
+                // Calcola la larghezza totale necessaria per i figli
+                const totalWidth = calculateChildWidth(node);
+
+                // Posiziona i figli e disegna le linee
+                let currentX = x - totalWidth / 2; // Punto iniziale per disporre i figli
+                let maxHeight = 0; // Per memorizzare l'altezza totale dei figli
+
+                children.forEach((child) => {
+                    const childWidth = calculateChildWidth(child); // Calcola larghezza figlio
+                    const childX = currentX + childWidth / 2; // Centro del figlio
+                    const childY = y + levelHeight; // Livello inferiore
+
+                    // Disegna linea dal nodo corrente al figlio
+                    const line = document.createElement('div');
+                    line.className = 'line';
+
+                    const dx = childX - x;
+                    const dy = childY - y;
+                    const length = Math.sqrt(dx * dx + dy * dy);
+                    const angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
+
+                    line.style.width = `${length}px`;
+                    line.style.height = '2px';
+                    line.style.left = `${x}px`;
+                    line.style.top = `${y}px`;
+                    line.style.transform = `rotate(${angleDeg}deg)`;
+                    treeContainer.appendChild(line);
+
+                    // Disegna il figlio
+                    maxHeight = Math.max(maxHeight, drawNode(child, childX, childY));
+
+                    currentX += childWidth; // Sposta il punto iniziale per il prossimo figlio
+                });
+
+                return maxHeight + levelHeight; // Restituisce l'altezza totale
+            }
+
+            // Posizionamento iniziale del nodo radice
+            const rootX = treeContainer.clientWidth / 2;  // Centro iniziale del contenitore
+            const rootY = 50; // Punto iniziale in alto
+
+            // Disegna l'albero
+            const rootHeight = drawNode(data[0], rootX, rootY);
+
+            // Applica il margine dinamico a sinistra per il nodo più a sinistra
+            if (minX < 0) {
+                treeContainer.style.transform = `translateX(${-minX + 50}px)`;
+            }
+
+            // Regola l'altezza per includere tutto
+            treeContainer.style.height = `${rootHeight + 150}px`; // Margine inferiore
+        }
+
+        document.addEventListener('DOMContentLoaded', renderTree);
+    </script>
+    </div>
+</body>
+</html>
