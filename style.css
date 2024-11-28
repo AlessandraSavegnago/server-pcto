@@ -184,3 +184,43 @@ input[type="submit"]:hover {
     background-color: #2980b9;
     transform-origin: top left;
 }
+
+/* Stile per la tabella dei sensori*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+}
+
+/* Intestazione della tabella*/
+th {
+    background-color: #007BFF;
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+/* Celle */
+td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Riga alternata per migliorare la leggibilità */
+tr {
+    background-color: #f9f9f9;
+}
+
+/* Effetto hover sulle righe */
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Aggiunta di bordi arrotondati */
+table {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
