@@ -83,7 +83,7 @@ $connection->close();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabella Sensori e Lampade</title>
+    <title>Tabella Sensori</title>
     <link href="style.css" rel="stylesheet"/> <!--link per lo stile-->
 </head>
 <body>
